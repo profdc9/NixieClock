@@ -153,6 +153,8 @@ ISR(TIMER1_COMPA_vect)
 }
 
 void setup() {
+  Serial.begin(9600);
+  Wire.begin();
   current_digit = 0;
   pinMode(SERIAL_LATCH, OUTPUT);
   pinMode(LED1, OUTPUT);
@@ -176,8 +178,6 @@ void setup() {
   TIMSK1 |= (1 << OCIE1A);  // enable timer compare interrupt
   interrupts();             // enable all interrupts
 
-  Serial.begin(9600);
-  Wire.begin();
   Clock.setClockMode(false);
   hour12 = (EEPROM.read(EEPROM_1224HR) == 1) ? 1 : 0;
   tempcf = (EEPROM.read(EEPROM_TEMPCF) == 1) ? 1 : 0;
@@ -340,7 +340,7 @@ byte cathodetick;
 #endif
 
 void loop() {
-  delay(100);
+ delay(100);
   if ((++mainlooptick) > TICK_CENTRAL_LOOP) mainlooptick = 0;
   if (mainlooptick < 150)
   {
